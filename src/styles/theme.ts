@@ -5,6 +5,7 @@ export const theme = {
     text: "white",
     background: "#4169E1",
     contrast: "#4169E1",
+    error: "red",
   },
   breakpoints: {
     xs: "576px",

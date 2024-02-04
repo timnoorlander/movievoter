@@ -5,6 +5,8 @@ import { Home } from "./home";
 import { CreateVoting } from "./create-voting";
 import { WaitingRoom } from "./waiting-room";
 import { JoinVoting } from "./join-voting";
+import { RedirectWithoutVoting } from "../components/elements/RedirectWithoutVoting";
+import { AddMovies } from "./add-movies";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +28,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/waiting-room",
-        element: <WaitingRoom />,
+        element: (
+          <RedirectWithoutVoting>
+            <WaitingRoom />
+          </RedirectWithoutVoting>
+        ),
+      },
+      {
+        path: "/add-movies",
+        element: <AddMovies />,
       },
     ],
   },

@@ -1,20 +1,20 @@
 import styled from "styled-components";
 import { Button } from "../components/elements/Button";
-import io from "socket.io-client";
-
-const socket = io("http://localhost:3001");
-socket.emit("join-room", "roomname");
+import { useVotingContext } from "../providers/VotingProvider";
 
 export function WaitingRoom() {
+  const { votingName, numberOfParticipants, isHost } = useVotingContext();
+
   return (
     <Container>
-      <span>Group name: Testo</span>
+      <span>Voting name: {votingName}</span>
       <ParticipantInfo>
         <span>There are currently</span>
-        <NumberOfParticipants>7</NumberOfParticipants>
+        <NumberOfParticipants>{numberOfParticipants}</NumberOfParticipants>
         <span>participants</span>
       </ParticipantInfo>
-      <Button>Start voting process</Button>
+
+      {isHost && <Button>Start voting process</Button>}
     </Container>
   );
 }
