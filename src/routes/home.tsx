@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Button } from "../components/elements/Button";
+import { paths } from "../constants/paths";
 
 export function Home() {
   return (
     <Container>
-      <Link to="/join-voting">
+      <Link to={paths.JOIN_VOTING}>
         <Button>Join voting</Button>
       </Link>
-      <Link to="/create-voting">
+      <Link to={paths.CREATE_VOTING}>
         <Button>Create voting</Button>
       </Link>
     </Container>

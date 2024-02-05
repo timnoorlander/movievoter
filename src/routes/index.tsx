@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Root } from "./root";
 import { GenericError } from "../components/layout/GenericError";
 import { Home } from "./home";
@@ -7,11 +7,17 @@ import { WaitingRoom } from "./waiting-room";
 import { JoinVoting } from "./join-voting";
 import { RedirectWithoutVoting } from "../components/elements/RedirectWithoutVoting";
 import { AddMovies } from "./add-movies";
+import { MainLayout } from "../components/layout/MainLayout";
+import { paths } from "../constants/paths";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Root />,
+    path: paths.ROOT,
+    element: (
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    ),
     errorElement: <GenericError />,
     children: [
       {
@@ -19,15 +25,15 @@ const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "/create-voting",
+        path: paths.CREATE_VOTING,
         element: <CreateVoting />,
       },
       {
-        path: "/join-voting",
+        path: paths.JOIN_VOTING,
         element: <JoinVoting />,
       },
       {
-        path: "/waiting-room",
+        path: paths.WAITING_ROOM,
         element: (
           <RedirectWithoutVoting>
             <WaitingRoom />
@@ -35,7 +41,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/add-movies",
+        path: paths.ADD_MOVIES,
         element: <AddMovies />,
       },
     ],

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useVotingContext } from "../../providers/VotingProvider";
+import { paths } from "../../constants/paths";
 
 type Props = {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ export function RedirectWithoutVoting({ children }: Props) {
 
   useEffect(() => {
     if (!votingName) {
-      navigate("/");
+      navigate(paths.ROOT);
     }
   }, [navigate, votingName]);
 

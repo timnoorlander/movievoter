@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Button } from "../components/elements/Button";
 import { useVotingContext } from "../providers/VotingProvider";
+import { Link } from "react-router-dom";
 
 export function WaitingRoom() {
   const { votingName, numberOfParticipants, isHost } = useVotingContext();
@@ -14,7 +15,11 @@ export function WaitingRoom() {
         <span>participants</span>
       </ParticipantInfo>
 
-      {isHost && <Button>Start voting process</Button>}
+      {isHost && (
+        <Link to="">
+          <Button>Start voting process</Button>
+        </Link>
+      )}
     </Container>
   );
 }

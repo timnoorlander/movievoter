@@ -4,6 +4,7 @@ import { theme } from "../styles/theme";
 import { Button } from "../components/elements/Button";
 import { useNavigate } from "react-router-dom";
 import { useVotingContext } from "../providers/VotingProvider";
+import { paths } from "../constants/paths";
 
 type Inputs = {
   votingName: string;
@@ -23,7 +24,7 @@ export function CreateVoting() {
 
   const onSubmit: SubmitHandler<Inputs> = (inputs: Inputs) => {
     createVoting(inputs.votingName);
-    navigate("/waiting-room");
+    navigate(paths.WAITING_ROOM);
   };
 
   return (
