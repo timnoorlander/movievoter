@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { paths } from "../constants/paths";
+import { VotingStages } from "../constants/voting-stages";
 
 type VotingProviderProps = {
   children: React.ReactNode;
@@ -7,9 +9,11 @@ type VotingProviderProps = {
 
 type VotingProviderValue = {
   joinVoting: (votingName: string) => void;
-  createVoting: (roomName: string) => void;
-  numberOfParticipants: number | undefined;
+  createVoting: (votingName: string) => void;
+  startVoting: () => void;
   votingName: string | undefined;
+  votingStage: VotingStages | undefined;
+  numberOfParticipants: number | undefined;
   isHost: boolean | undefined;
 };
 
@@ -19,13 +23,19 @@ const socket = io("http://localhost:3001");
 
 export function VotingProvider({ children }: VotingProviderProps) {
   const [votingName, setVotingName] = useState<string>();
+  const [votingStage, setVotingStage] = useState<VotingStages | undefined>();
   const [numberOfParticipants, setNumberOfParticipants] = useState<number>();
   const [isHost, setIsHost] = useState(false);
 
   useEffect(() => {
     socket.on("participants-updated", (data: { roomSize: number }) => {
+      console.log("update participants");
       setNumberOfParticipants(data.roomSize);
-      console.log(data);
+    });
+
+    socket.on("voting-stage-updated", (votingStage: number) => {
+      console.log({ votingStage });
+      setVotingStage(VotingStages.ADD_MOVIES);
     });
 
     return () => {
@@ -34,20 +44,26 @@ export function VotingProvider({ children }: VotingProviderProps) {
   }, []);
 
   function joinVoting(newVotingName: string) {
-    socket.emit("join-room", newVotingName);
+    socket.emit("join-voting", newVotingName);
     setVotingName(newVotingName);
     setIsHost(false);
   }
 
   function createVoting(newVotingName: string) {
-    socket.emit("create-room", newVotingName);
+    socket.emit("create-voting", newVotingName);
     setVotingName(newVotingName);
     setIsHost(true);
+  }
+
+  function startVoting() {
+    socket.emit("update-voting-stage", paths.ADD_MOVIES);
   }
 
   const value: VotingProviderValue = {
     joinVoting,
     createVoting,
+    startVoting,
+    votingStage,
     votingName,
     numberOfParticipants,
     isHost,

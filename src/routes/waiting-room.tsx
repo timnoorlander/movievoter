@@ -1,10 +1,25 @@
 import styled from "styled-components";
 import { Button } from "../components/elements/Button";
 import { useVotingContext } from "../providers/VotingProvider";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { VotingStages } from "../constants/voting-stages";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../constants/paths";
 
 export function WaitingRoom() {
-  const { votingName, numberOfParticipants, isHost } = useVotingContext();
+  const navigate = useNavigate();
+  const { votingName, numberOfParticipants, isHost, startVoting, votingStage } =
+    useVotingContext();
+
+  function onStartVotingProcess() {
+    startVoting();
+  }
+
+  useEffect(() => {
+    if (votingStage === VotingStages.ADD_MOVIES) {
+      navigate(paths.ADD_MOVIES);
+    }
+  }, [navigate, votingStage]);
 
   return (
     <Container>
@@ -16,9 +31,7 @@ export function WaitingRoom() {
       </ParticipantInfo>
 
       {isHost && (
-        <Link to="">
-          <Button>Start voting process</Button>
-        </Link>
+        <Button onClick={onStartVotingProcess}>Start voting process</Button>
       )}
     </Container>
   );
