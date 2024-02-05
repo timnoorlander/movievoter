@@ -19,7 +19,7 @@ type VotingProviderValue = {
 
 const VotingContext = createContext<VotingProviderValue | undefined>(undefined);
 
-const socket = io("http://localhost:3001");
+const socket = io(import.meta.env.VITE_WEBSOCKET_URL);
 
 export function VotingProvider({ children }: VotingProviderProps) {
   const [votingName, setVotingName] = useState<string>();

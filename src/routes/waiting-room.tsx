@@ -5,7 +5,8 @@ import { useEffect } from "react";
 import { VotingStages } from "../constants/voting-stages";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../constants/paths";
-import LoadingSpinner from "../assets/loading.svg?react";
+import { Spinner } from "../components/elements/Spinner";
+import { slideRightAnimation } from "../components/layout/SlideRightAnimation";
 
 export function WaitingRoom() {
   const navigate = useNavigate();
@@ -36,10 +37,10 @@ export function WaitingRoom() {
       )}
 
       {!isHost && (
-        <LoadingIndicator>
-          <StyledLoadingSpinner />
-          <span>Waiting for host to continue</span>
-        </LoadingIndicator>
+        <LoadingIndication>
+          <Spinner />
+          Waiting for host to continue
+        </LoadingIndication>
       )}
     </Container>
   );
@@ -50,6 +51,7 @@ const NumberOfParticipants = styled.span`
 `;
 
 const Container = styled.div`
+  animation: ${slideRightAnimation} 300ms;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -63,13 +65,9 @@ const ParticipantInfo = styled.div`
   gap: 24px;
 `;
 
-const LoadingIndicator = styled.div`
+const LoadingIndication = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-`;
-
-const StyledLoadingSpinner = styled(LoadingSpinner)`
-  stroke: white;
 `;

@@ -4,6 +4,7 @@ import { Button } from "../components/elements/Button";
 import { useNavigate } from "react-router-dom";
 import { useVotingContext } from "../providers/VotingProvider";
 import { Input } from "../components/elements/Input";
+import { slideRightAnimation } from "../components/layout/SlideRightAnimation";
 
 type Inputs = {
   votingName: string;
@@ -40,6 +41,7 @@ export function JoinVoting() {
 }
 
 const Form = styled.form`
+  animation: ${slideRightAnimation} 300ms;
   display: flex;
   flex-direction: column;
   gap: 48px;
