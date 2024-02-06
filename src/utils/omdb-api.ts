@@ -1,4 +1,6 @@
 type OmdbMovieResponse = {
+  imdbID: string;
+  Title: string;
   Genre: string;
   Plot: string;
   Poster: string;
@@ -14,9 +16,6 @@ export async function getMovieByImdbId(
 ): Promise<OmdbMovieResponse> {
   const omdbMovieUrl = getOmdbMovieUrlByImdbId(imdbId);
   const response = await fetch(omdbMovieUrl);
-
-  console.log({ response });
-
   return response.json();
 }
 

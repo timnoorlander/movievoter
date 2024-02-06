@@ -5,7 +5,7 @@ import { Button } from "../components/elements/Button";
 import { useNavigate } from "react-router-dom";
 import { useVotingContext } from "../providers/VotingProvider";
 import { paths } from "../constants/paths";
-import { slideRightAnimation } from "../components/layout/SlideRightAnimation";
+import { slideRightAnimation } from "../components/layout/animations/SlideRight";
 
 type Inputs = {
   votingName: string;
@@ -21,8 +21,6 @@ export function CreateVoting() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  console.log(errors);
-
   const onSubmit: SubmitHandler<Inputs> = (inputs: Inputs) => {
     createVoting(inputs.votingName);
     navigate(paths.WAITING_ROOM);
@@ -33,7 +31,6 @@ export function CreateVoting() {
       <Input
         type="text"
         placeholder="Voting name"
-        autoFocus
         {...register("votingName", { required: true })}
       ></Input>
 
@@ -54,7 +51,7 @@ const Form = styled.form`
 const Input = styled.input`
   text-align: center;
   padding: 1rem;
-  border-radius: ${theme.borderRadius};
+  border-radius: ${theme.borderRadius.md};
   border: none;
   outline: none;
   font-size: ${theme.fontSizes.xs};

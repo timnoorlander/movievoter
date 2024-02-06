@@ -24,4 +24,10 @@ export const GlobalStyles = createGlobalStyle`
     font-style: italic;
   }
 
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
 `;

@@ -6,7 +6,7 @@ import { VotingStages } from "../constants/voting-stages";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../constants/paths";
 import { Spinner } from "../components/elements/Spinner";
-import { slideRightAnimation } from "../components/layout/SlideRightAnimation";
+import { slideRightAnimation } from "../components/layout/animations/SlideRight";
 
 export function WaitingRoom() {
   const navigate = useNavigate();
