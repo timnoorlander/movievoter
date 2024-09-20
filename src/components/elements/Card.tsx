@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { theme } from "../../styles/theme";
 import { slideUpAnimation } from "../layout/animations/SlideUp";
 
-export const Card = styled.div`
+export const Card = styled.div<{ hasAnimation?: boolean }>`
   display: flex;
+  width: 100%;
   gap: 1rem;
   padding: 0.5rem;
   background-color: ${theme.colors.primary};
@@ -12,7 +13,12 @@ export const Card = styled.div`
 
   ${theme.boxShadow}
 
-  animation: ${slideUpAnimation} 300ms;
+  ${(props) =>
+    props.hasAnimation
+      ? css`
+          animation: ${slideUpAnimation} 300ms;
+        `
+      : null}
 `;
 
 export const CardImage = styled.div`

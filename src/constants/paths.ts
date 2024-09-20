@@ -4,4 +4,5 @@ export const paths = {
   JOIN_VOTING: "/join-voting",
   WAITING_ROOM: "/waiting-room",
   ADD_MOVIES: "/add-movies",
+  VOTE: "/vote",
 };

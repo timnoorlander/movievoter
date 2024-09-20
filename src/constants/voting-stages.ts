@@ -1,5 +1,5 @@
 export enum VotingStages {
   ADD_MOVIES,
-  VOTING,
+  VOTE,
   RESULT,
 }

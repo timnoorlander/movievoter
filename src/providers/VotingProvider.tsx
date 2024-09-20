@@ -17,40 +17,43 @@ type VotingProviderValue = {
   numberOfParticipants: number | undefined;
   numberOfMoviesPerUser: number | undefined;
   isHost: boolean | undefined;
+  movieIds: Array<string>;
 };
 
 const VotingContext = createContext<VotingProviderValue | undefined>(undefined);
 
 const socket = io(import.meta.env.VITE_WEBSOCKET_URL);
 
+// TODO: Utilize reducer
+
 export function VotingProvider({ children }: VotingProviderProps) {
+  const [isHost, setIsHost] = useState(false);
   const [votingName, setVotingName] = useState<string>();
   const [votingStage, setVotingStage] = useState<VotingStages | undefined>();
   const [numberOfParticipants, setNumberOfParticipants] = useState<number>();
-  const [isHost, setIsHost] = useState(false);
-
-  // Current implementation only works when everyone adds number of movies that equals $numberOfMoviesPerUser
-  // It would be better if it's numberOfMoviesPerUser or less.
-
   // TODO: Make dynamic
   const [numberOfMoviesPerUser, setNumberOfMoviesPerUser] = useState<
     number | undefined
   >(2);
-  const [movieIds, setMovieIds] = useState<Array<string>>([]);
+  const [movieIds, setMovieIds] = useState<Array<string>>([
+    "tt0111161", // The Shawshank Redemption
+    "tt0068646", // The Godfather
+    "tt0468569", // The Dark Knight
+    "tt0137523", // Fight Club
+    "tt1375666", // Inception
+    "tt0109830", // Forrest Gump
+    "tt0167260", // The Lord of the Rings: The Return of the King
+    "tt0120737", // The Lord of the Rings: The Fellowship of the Ring
+    "tt0133093", // The Matrix
+    "tt0099685", // Goodfellas
+  ]);
+  const [readyForNextStage, setReadyForNextStage] = useState<number>(0);
 
   useEffect(() => {
-    console.log({ movieIds });
-  }, [movieIds]);
-
-  useEffect(() => {
-    if (!isHost || !numberOfMoviesPerUser || !numberOfParticipants) {
-      return;
+    if (readyForNextStage === numberOfParticipants) {
+      setVotingStage(VotingStages.VOTE);
     }
-
-    if (movieIds.length === numberOfMoviesPerUser * numberOfParticipants) {
-      console.log("on to the next stage!");
-    }
-  }, [isHost, movieIds.length, numberOfMoviesPerUser, numberOfParticipants]);
+  }, [numberOfParticipants, readyForNextStage]);
 
   useEffect(() => {
     socket.on("participants-updated", (data: { roomSize: number }) => {
@@ -63,14 +66,15 @@ export function VotingProvider({ children }: VotingProviderProps) {
     });
 
     socket.on("movies-added", (ids: Array<string>) => {
-      console.log("movies added");
       setMovieIds((movieIds) => [...movieIds, ...ids]);
+      setReadyForNextStage((i) => i + 1);
     });
 
     socket.on("movies-removed", (ids: Array<string>) => {
       setMovieIds((movieIds) =>
         movieIds.filter((movieId) => !ids.includes(movieId))
       );
+      setReadyForNextStage((i) => i - 1);
     });
 
     return () => {
@@ -119,6 +123,7 @@ export function VotingProvider({ children }: VotingProviderProps) {
     numberOfParticipants,
     numberOfMoviesPerUser,
     isHost,
+    movieIds,
   };
 
   return (

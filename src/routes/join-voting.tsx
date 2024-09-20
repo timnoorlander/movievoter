@@ -46,8 +46,4 @@ const Form = styled.form`
   gap: 48px;
   height: 100%;
   justify-content: center;
-
-  &:focus-within {
-    justify-content: flex-start;
-  }
 `;

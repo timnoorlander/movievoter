@@ -13,8 +13,13 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   html, body, #root {
-  height: 100%
-}
+    height: 100%;
+  }
+
+  /* Disable pull-to-refresh */
+  body {
+    overscroll-behavior: contain;
+  }
 
   h1 {
     font-size: clamp(${theme.fontSizes.md}, -1.0455rem + 9.0909vw, ${theme.fontSizes.lg});

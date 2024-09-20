@@ -5,7 +5,7 @@ import { Input } from "../components/elements/Input";
 import { theme } from "../styles/theme";
 import { getImdbIdByUrl, imdbUrlRegex } from "../utils/imdb";
 import { useQueries } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getMovieByImdbId } from "../utils/omdb-api";
 import { Spinner } from "../components/elements/Spinner";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
@@ -19,12 +19,17 @@ import {
 } from "../components/elements/Card";
 import { slideUpAnimation } from "../components/layout/animations/SlideUp";
 import { useVotingContext } from "../providers/VotingProvider";
+import { paths } from "../constants/paths";
+import { VotingStages } from "../constants/voting-stages";
+import { useNavigate } from "react-router-dom";
+import { ReadyToggle } from "../components/elements/ReadyToggle";
 
 type Inputs = {
   imdbUrl: string;
 };
 
 export function AddMovies() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -32,9 +37,16 @@ export function AddMovies() {
     formState: { errors },
   } = useForm<Inputs>({ mode: "onBlur" });
 
-  const { persistMovies, undoPersistingMovies } = useVotingContext();
+  const { persistMovies, undoPersistingMovies, votingStage } =
+    useVotingContext();
 
   const [imdbIds, setImdbIds] = useState<Array<string>>([]);
+
+  useEffect(() => {
+    if (votingStage === VotingStages.VOTE) {
+      navigate(paths.VOTE);
+    }
+  }, [navigate, votingStage]);
 
   const results = useQueries({
     queries: imdbIds.map((imdbId) => ({
@@ -93,7 +105,7 @@ export function AddMovies() {
 
             return (
               <ListItem key={movie.imdbID}>
-                <Card>
+                <Card hasAnimation>
                   <CardImage>
                     <Poster src={movie.Poster} />
                   </CardImage>
@@ -113,16 +125,10 @@ export function AddMovies() {
       </Container>
 
       {(imdbIds.length && !isFetchingMovie) || imdbIds.length > 1 ? (
-        <BottomBarContainer>
-          <BottomBar>
-            I'm done
-            <Toggle
-              name="is done"
-              onToggleOn={() => persistMovies(imdbIds)}
-              onToggleOff={() => undoPersistingMovies(imdbIds)}
-            />
-          </BottomBar>
-        </BottomBarContainer>
+        <ReadyToggle
+          onToggleOn={() => persistMovies(imdbIds)}
+          onToggleOff={() => undoPersistingMovies(imdbIds)}
+        />
       ) : null}
     </>
   );
@@ -171,28 +177,4 @@ const CloseIcon = styled(FiX)`
 const StyledSpinner = styled(Spinner)`
   margin: 0 auto;
   margin-top: 1rem;
-`;
-
-const BottomBarContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  animation: ${slideUpAnimation} 300ms;
-`;
-
-const BottomBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 1rem;
-  line-height: 1.5rem;
-  font-weight: bolder;
-  ${theme.boxShadow}
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  margin: 0 0.5rem 0.5rem 0.5rem;
-  border-radius: ${theme.borderRadius.md};
-  background-color: ${theme.colors.primary};
-  color: ${theme.colors.textContrast};
 `;

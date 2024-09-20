@@ -9,6 +9,7 @@ import { RedirectWithoutVoting } from "../components/elements/RedirectWithoutVot
 import { AddMovies } from "./add-movies";
 import { MainLayout } from "../components/layout/MainLayout";
 import { paths } from "../constants/paths";
+import { Vote } from "./vote";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,19 @@ const router = createBrowserRouter([
       },
       {
         path: paths.ADD_MOVIES,
-        element: <AddMovies />,
+        element: (
+          <RedirectWithoutVoting>
+            <AddMovies />
+          </RedirectWithoutVoting>
+        ),
+      },
+      {
+        path: paths.VOTE,
+        element: (
+          // <RedirectWithoutVoting>
+          <Vote />
+          // </RedirectWithoutVoting>
+        ),
       },
     ],
   },
