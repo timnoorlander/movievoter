@@ -7,10 +7,10 @@ export function Home() {
   return (
     <Container>
       <Link to={paths.JOIN_VOTING}>
-        <Button>Join voting</Button>
+        <Button role='join-voting'>Join voting</Button>
       </Link>
       <Link to={paths.CREATE_VOTING}>
-        <Button>Create voting</Button>
+        <Button role='create-voting'>Create voting</Button>
       </Link>
     </Container>
   );
