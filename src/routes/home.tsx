@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Button } from "../components/elements/Button";
 import { paths } from "../constants/paths";
-import { slideRightAnimation } from "../components/layout/animations/SlideRight";
 
 export function Home() {
   return (

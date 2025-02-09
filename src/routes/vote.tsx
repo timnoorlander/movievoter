@@ -110,7 +110,10 @@ export function Vote() {
         </DragDropContext>
       </VotingContainer>
 
-      <ReadyToggle />
+      <ReadyToggle
+        onToggleOn={() => {console.log('Wax on')}}
+        onToggleOff={() => {console.log('Wax on')}}
+      />
     </Container>
   );
 }

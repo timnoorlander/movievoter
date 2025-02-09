@@ -1,5 +1,4 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { Root } from "./root";
 import { GenericError } from "../components/layout/GenericError";
 import { Home } from "./home";
 import { CreateVoting } from "./create-voting";
