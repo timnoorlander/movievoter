@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useVotingContext } from "../../providers/VotingProvider";
+import {useVotingContext} from "../../providers/VotingContext.ts";
 import { paths } from "../../constants/paths";
 
 type Props = {

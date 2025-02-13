@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { theme } from "../styles/theme";
 import { Button } from "../components/elements/Button";
 import { useNavigate } from "react-router-dom";
-import { useVotingContext } from "../providers/VotingProvider";
 import { paths } from "../constants/paths";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
+import {useVotingContext} from "../providers/VotingContext.ts";
 
 type Inputs = {
   votingName: string;

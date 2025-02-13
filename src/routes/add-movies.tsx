@@ -18,11 +18,11 @@ import {
   CardTopRightButton,
 } from "../components/elements/Card";
 
-import { useVotingContext } from "../providers/VotingProvider";
 import { paths } from "../constants/paths";
 import { VotingStages } from "../constants/voting-stages";
 import { useNavigate } from "react-router-dom";
 import { ReadyToggle } from "../components/elements/ReadyToggle";
+import {useVotingContext} from "../providers/VotingContext.ts";
 
 type Inputs = {
   imdbUrl: string;
@@ -38,7 +38,7 @@ export function AddMovies() {
   } = useForm<Inputs>({ mode: "onBlur" });
 
   const { persistMovies, undoPersistingMovies, votingStage } =
-    useVotingContext();
+    useVotingContext()
 
   const [imdbIds, setImdbIds] = useState<Array<string>>([]);
 

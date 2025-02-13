@@ -6,7 +6,7 @@ import {
   DropResult,
   DraggableLocation,
 } from "react-beautiful-dnd";
-import { useVotingContext } from "../providers/VotingProvider";
+
 import { getMovieByImdbId } from "../utils/omdb-api";
 import {
   Card,
@@ -20,6 +20,7 @@ import { useState } from "react";
 import { Spinner } from "../components/elements/Spinner";
 import { theme } from "../styles/theme";
 import { ReadyToggle } from "../components/elements/ReadyToggle";
+import {useVotingContext} from "../providers/VotingContext.ts";
 
 export function Vote() {
   const { movieIds } = useVotingContext();
