@@ -31,11 +31,12 @@ export function JoinVoting() {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
         type="text"
+        role="voting-name"
         placeholder="Voting name"
         {...register("votingName", { required: true })}
       ></Input>
 
-      <Button type="submit">Join voting</Button>
+      <Button type="submit" role="submit-join-voting">Join voting</Button>
     </Form>
   );
 }
