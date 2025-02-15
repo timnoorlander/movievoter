@@ -30,11 +30,12 @@ export function CreateVoting() {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
         type="text"
+        role="voting-name"
         placeholder="Voting name"
         {...register("votingName", { required: true })}
       ></Input>
 
-      <Button type="submit">Create voting</Button>
+      <Button type="submit" role="submit-voting">Create voting</Button>
     </Form>
   );
 }

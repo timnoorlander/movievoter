@@ -36,7 +36,7 @@ export function JoinVoting() {
         {...register("votingName", { required: true })}
       ></Input>
 
-      <Button type="submit" role="submit-join-voting">Join voting</Button>
+      <Button type="submit" role="submit-voting">Join voting</Button>
     </Form>
   );
 }
