@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { getMovieByImdbId } from "../utils/omdb-api";
 import { Spinner } from "../components/elements/Spinner";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
-import { Toggle } from "../components/elements/Toggle";
 import {
   Card,
   CardImage,
@@ -17,7 +16,6 @@ import {
   CardTitle,
   CardTopRightButton,
 } from "../components/elements/Card";
-import { slideUpAnimation } from "../components/layout/animations/SlideUp";
 import { useVotingContext } from "../providers/VotingProvider";
 import { paths } from "../constants/paths";
 import { VotingStages } from "../constants/voting-stages";

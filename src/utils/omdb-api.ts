@@ -1,3 +1,5 @@
+import { getConfigValue } from "./config";
+
 type OmdbMovieResponse = {
   imdbID: string;
   Title: string;
@@ -20,7 +22,7 @@ export async function getMovieByImdbId(
 }
 
 function getOmdbMovieUrlByImdbId(imdbId: string) {
-  return `https://www.omdbapi.com/?i=${imdbId}&apikey=${
-    import.meta.env.VITE_OMDB_API_KEY
-  }`;
+  return `https://www.omdbapi.com/?i=${imdbId}&apikey=${getConfigValue(
+    "VITE_OMDB_API_KEY"
+  )}`;
 }

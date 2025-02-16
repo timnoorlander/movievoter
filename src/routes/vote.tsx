@@ -22,7 +22,7 @@ import { theme } from "../styles/theme";
 import { ReadyToggle } from "../components/elements/ReadyToggle";
 
 export function Vote() {
-  const { movieIds } = useVotingContext();
+  const { movieIds, castVote, withdrawVote } = useVotingContext();
   const [orderedMovieIds, setOrderedMovieIds] =
     useState<Array<string>>(movieIds);
 
@@ -110,7 +110,10 @@ export function Vote() {
         </DragDropContext>
       </VotingContainer>
 
-      <ReadyToggle />
+      <ReadyToggle
+        onToggleOn={() => castVote(orderedMovieIds)}
+        onToggleOff={withdrawVote}
+      />
     </Container>
   );
 }

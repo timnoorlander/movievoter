@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { VotingStages } from "../constants/voting-stages";
+import { getConfigValue } from "../utils/config";
 
 type VotingProviderProps = {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ type VotingProviderValue = {
   startVoting: () => void;
   persistMovies: (movieIds: Array<string>) => void;
   undoPersistingMovies: (movieIds: Array<string>) => void;
+  castVote: (movieIds: Array<string>) => void;
+  withdrawVote: () => void;
   votingName: string | undefined;
   votingStage: VotingStages | undefined;
   numberOfParticipants: number | undefined;
@@ -22,7 +25,7 @@ type VotingProviderValue = {
 
 const VotingContext = createContext<VotingProviderValue | undefined>(undefined);
 
-const socket = io(import.meta.env.VITE_WEBSOCKET_URL);
+const socket = io(getConfigValue("VITE_WEBSOCKET_URL"));
 
 // TODO: Utilize reducer
 
@@ -77,11 +80,22 @@ export function VotingProvider({ children }: VotingProviderProps) {
       setReadyForNextStage((i) => i - 1);
     });
 
+    socket.on("vote-casted", (orderedMovieIds: string) => {
+      //TODO: is not receiving anything
+      console.log("vote casted", orderedMovieIds);
+    });
+
+    socket.on("vote-withdrawn", (orderedMovieIds: string) => {
+      console.log("vote withdrawn", orderedMovieIds);
+    });
+
     return () => {
       socket.off("participants-updated");
       socket.off("voting-stage-updated");
       socket.off("movies-added");
       socket.off("movies-removed");
+      socket.off("vote-casted");
+      socket.off("vote-withdrawn");
     };
   }, []);
 
@@ -112,12 +126,22 @@ export function VotingProvider({ children }: VotingProviderProps) {
     socket.emit("remove-movies", movieIds);
   }
 
+  function castVote(orderedMovieIds: Array<string>) {
+    socket.emit("cast-vote", orderedMovieIds);
+  }
+
+  function withdrawVote() {
+    socket.emit("withdraw-vote");
+  }
+
   const value: VotingProviderValue = {
     joinVoting,
     createVoting,
     startVoting,
     persistMovies,
     undoPersistingMovies,
+    castVote,
+    withdrawVote,
     votingStage,
     votingName,
     numberOfParticipants,
