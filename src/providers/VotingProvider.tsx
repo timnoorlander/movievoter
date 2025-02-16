@@ -3,10 +3,13 @@ import { io } from "socket.io-client";
 import { VotingStages } from "../constants/voting-stages";
 import { getConfigValue } from "../utils/config";
 import { VotingContext, TVotingContext } from "./VotingContext.ts";
+import { Votes } from "../types/index.ts";
 
 type VotingProviderProps = {
   children: React.ReactNode;
 };
+
+const MAX_NUMBER_OF_MOVIES = 2;
 
 const socket = io(getConfigValue("VITE_WEBSOCKET_URL"));
 
@@ -20,7 +23,7 @@ export function VotingProvider({ children }: VotingProviderProps) {
   // TODO: Make dynamic
   const [numberOfMoviesPerUser, setNumberOfMoviesPerUser] = useState<
     number | undefined
-  >(2);
+  >(MAX_NUMBER_OF_MOVIES);
   const [movieIds, setMovieIds] = useState<Array<string>>([
     "tt0111161", // The Shawshank Redemption
     "tt0068646", // The Godfather
@@ -33,6 +36,7 @@ export function VotingProvider({ children }: VotingProviderProps) {
     "tt0133093", // The Matrix
     "tt0099685", // Goodfellas
   ]);
+  const [votes, setVotes] = useState<Votes>([]);
   const [readyForNextStage, setReadyForNextStage] = useState<number>(0);
 
   useEffect(() => {
@@ -40,6 +44,14 @@ export function VotingProvider({ children }: VotingProviderProps) {
       setVotingStage(VotingStages.VOTE);
     }
   }, [numberOfParticipants, readyForNextStage]);
+
+  useEffect(() => {
+    console.log("votes", votes);
+    if (numberOfParticipants === votes.length) {
+      console.log("all votes casted");
+      setVotingStage(VotingStages.RESULT);
+    }
+  });
 
   useEffect(() => {
     socket.on("participants-updated", (data: { roomSize: number }) => {
@@ -66,6 +78,7 @@ export function VotingProvider({ children }: VotingProviderProps) {
     socket.on("vote-casted", (orderedMovieIds: string) => {
       //TODO: is not receiving anything
       console.log("vote casted", orderedMovieIds);
+      setVotes((votes) => [...votes, [orderedMovieIds]]);
     });
 
     socket.on("vote-withdrawn", (orderedMovieIds: string) => {
