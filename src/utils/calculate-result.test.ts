@@ -1,4 +1,4 @@
-import { calculateResults } from "./calculate-results";
+import { calculateResult, calculateResult, getDraws } from "./calculate-result";
 
 test("calulates the results for three sets of votes", () => {
   const mockedVotes = [
@@ -7,7 +7,7 @@ test("calulates the results for three sets of votes", () => {
     ["c", "b", "a"],
   ];
 
-  const result = calculateResults(mockedVotes);
+  const result = calculateResult(mockedVotes);
 
   const expectedResult = {
     a: 7,
@@ -24,7 +24,7 @@ test("calulates the results for two sets of votes", () => {
     ["b", "c", "a"],
   ];
 
-  const result = calculateResults(mockedVotes);
+  const result = calculateResult(mockedVotes);
 
   const expectedResult = {
     a: 4,
@@ -41,7 +41,7 @@ test("calculation results in draw", () => {
     ["a", "b", "c"],
   ];
 
-  const result = calculateResults(mockedVotes);
+  const result = calculateResult(mockedVotes);
 
   const expectedResult = {
     a: 5,
@@ -50,4 +50,32 @@ test("calculation results in draw", () => {
   };
 
   expect(result).toStrictEqual(expectedResult);
+});
+
+test("calculates draws", () => {
+  const draws = getDraws({
+    a: 5,
+    b: 5,
+    c: 2,
+  });
+
+  const expectedResult = ["a", "b"];
+
+  expect(draws).toStrictEqual(expectedResult);
+});
+
+test("calculates draws", () => {
+  const draws = getDraws({
+    a: 5,
+    b: 5,
+    c: 2,
+    d: 3,
+    e: 3,
+    f: 3,
+    g: 10,
+  });
+
+  const expectedResult = ["a", "b", "d", "e", "f"];
+
+  expect(draws).toStrictEqual(expectedResult);
 });

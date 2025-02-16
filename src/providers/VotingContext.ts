@@ -1,5 +1,6 @@
 import { VotingStages } from "../constants/voting-stages.ts";
 import { createContext, useContext } from "react";
+import { Votes } from "../types/index.ts";
 
 export type TVotingContext = {
   joinVoting: (votingName: string) => void;
@@ -15,6 +16,7 @@ export type TVotingContext = {
   numberOfMoviesPerUser: number | undefined;
   isHost: boolean | undefined;
   movieIds: Array<string>;
+  votes: Votes;
 };
 
 export const VotingContext = createContext<TVotingContext | undefined>(

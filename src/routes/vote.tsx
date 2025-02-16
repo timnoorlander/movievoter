@@ -16,14 +16,18 @@ import {
 } from "../components/elements/Card";
 import styled from "styled-components";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Spinner } from "../components/elements/Spinner";
 import { theme } from "../styles/theme";
 import { ReadyToggle } from "../components/elements/ReadyToggle";
 import { useVotingContext } from "../providers/VotingContext.ts";
+import { paths } from "../constants/paths.ts";
+import { VotingStages } from "../constants/voting-stages.ts";
+import { useNavigate } from "react-router-dom";
 
 export function Vote() {
-  const { movieIds, castVote, withdrawVote } = useVotingContext();
+  const navigate = useNavigate();
+  const { movieIds, castVote, withdrawVote, votingStage } = useVotingContext();
   const [orderedMovieIds, setOrderedMovieIds] =
     useState<Array<string>>(movieIds);
 
@@ -54,6 +58,12 @@ export function Vote() {
 
     setOrderedMovieIds(orderedIds);
   }
+
+  useEffect(() => {
+    if (votingStage === VotingStages.RESULT) {
+      navigate(paths.RESULT);
+    }
+  }, [navigate, votingStage]);
 
   return (
     <Container>

@@ -9,6 +9,7 @@ import { AddMovies } from "./add-movies";
 import { MainLayout } from "../components/layout/MainLayout";
 import { paths } from "../constants/paths";
 import { Vote } from "./vote";
+import { Result } from "./result";
 
 const router = createBrowserRouter([
   {
@@ -51,8 +52,16 @@ const router = createBrowserRouter([
       {
         path: paths.VOTE,
         element: (
+          <RedirectWithoutVoting>
+            <Vote />
+          </RedirectWithoutVoting>
+        ),
+      },
+      {
+        path: paths.RESULT,
+        element: (
           // <RedirectWithoutVoting>
-          <Vote />
+          <Result />
           // </RedirectWithoutVoting>
         ),
       },

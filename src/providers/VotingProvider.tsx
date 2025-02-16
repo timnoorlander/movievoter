@@ -24,18 +24,7 @@ export function VotingProvider({ children }: VotingProviderProps) {
   const [numberOfMoviesPerUser, setNumberOfMoviesPerUser] = useState<
     number | undefined
   >(MAX_NUMBER_OF_MOVIES);
-  const [movieIds, setMovieIds] = useState<Array<string>>([
-    "tt0111161", // The Shawshank Redemption
-    "tt0068646", // The Godfather
-    "tt0468569", // The Dark Knight
-    "tt0137523", // Fight Club
-    "tt1375666", // Inception
-    "tt0109830", // Forrest Gump
-    "tt0167260", // The Lord of the Rings: The Return of the King
-    "tt0120737", // The Lord of the Rings: The Fellowship of the Ring
-    "tt0133093", // The Matrix
-    "tt0099685", // Goodfellas
-  ]);
+  const [movieIds, setMovieIds] = useState<Array<string>>([]);
   const [votes, setVotes] = useState<Votes>([]);
   const [readyForNextStage, setReadyForNextStage] = useState<number>(0);
 
@@ -46,12 +35,14 @@ export function VotingProvider({ children }: VotingProviderProps) {
   }, [numberOfParticipants, readyForNextStage]);
 
   useEffect(() => {
-    console.log("votes", votes);
     if (numberOfParticipants === votes.length) {
-      console.log("all votes casted");
       setVotingStage(VotingStages.RESULT);
     }
-  });
+  }, [numberOfParticipants, votes]);
+
+  useEffect(() => {
+    console.log("votes", votes);
+  }, [votes]);
 
   useEffect(() => {
     socket.on("participants-updated", (data: { roomSize: number }) => {
@@ -75,10 +66,10 @@ export function VotingProvider({ children }: VotingProviderProps) {
       setReadyForNextStage((i) => i - 1);
     });
 
-    socket.on("vote-casted", (orderedMovieIds: string) => {
+    socket.on("vote-casted", (orderedMovieIds: Array<string>) => {
       //TODO: is not receiving anything
       console.log("vote casted", orderedMovieIds);
-      setVotes((votes) => [...votes, [orderedMovieIds]]);
+      setVotes((votes) => [...votes, orderedMovieIds]);
     });
 
     socket.on("vote-withdrawn", (orderedMovieIds: string) => {

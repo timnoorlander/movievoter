@@ -1,21 +1,7 @@
+import { Movie } from "../types";
 import { getConfigValue } from "./config";
 
-type OmdbMovieResponse = {
-  imdbID: string;
-  Title: string;
-  Genre: string;
-  Plot: string;
-  Poster: string;
-  Year: string;
-  Director: string;
-  Actors: string;
-  ImdbRating: string;
-  ImdbVotes: string;
-};
-
-export async function getMovieByImdbId(
-  imdbId: string
-): Promise<OmdbMovieResponse> {
+export async function getMovieByImdbId(imdbId: string): Promise<Movie> {
   const omdbMovieUrl = getOmdbMovieUrlByImdbId(imdbId);
   const response = await fetch(omdbMovieUrl);
   return response.json();
