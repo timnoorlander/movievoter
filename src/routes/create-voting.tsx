@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { theme } from "../styles/theme";
 import { Button } from "../components/elements/Button";
 import { useNavigate } from "react-router-dom";
-import { useVotingContext } from "../providers/VotingProvider";
 import { paths } from "../constants/paths";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
+import {useVotingContext} from "../providers/VotingContext.ts";
 
 type Inputs = {
   votingName: string;
@@ -30,11 +30,12 @@ export function CreateVoting() {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
         type="text"
+        role="voting-name"
         placeholder="Voting name"
         {...register("votingName", { required: true })}
       ></Input>
 
-      <Button type="submit">Create voting</Button>
+      <Button type="submit" role="submit-voting">Create voting</Button>
     </Form>
   );
 }

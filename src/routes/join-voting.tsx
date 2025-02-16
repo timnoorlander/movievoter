@@ -2,9 +2,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { Button } from "../components/elements/Button";
 import { useNavigate } from "react-router-dom";
-import { useVotingContext } from "../providers/VotingProvider";
+
 import { Input } from "../components/elements/Input";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
+import {useVotingContext} from "../providers/VotingContext.ts";
 
 type Inputs = {
   votingName: string;
@@ -30,11 +31,12 @@ export function JoinVoting() {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
         type="text"
+        role="voting-name"
         placeholder="Voting name"
         {...register("votingName", { required: true })}
       ></Input>
 
-      <Button type="submit">Join voting</Button>
+      <Button type="submit" role="submit-voting">Join voting</Button>
     </Form>
   );
 }

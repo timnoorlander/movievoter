@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { Button } from "../components/elements/Button";
-import { useVotingContext } from "../providers/VotingProvider";
 import { useEffect } from "react";
 import { VotingStages } from "../constants/voting-stages";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../constants/paths";
 import { Spinner } from "../components/elements/Spinner";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
+import {useVotingContext} from "../providers/VotingContext.ts";
 
 export function WaitingRoom() {
   const navigate = useNavigate();

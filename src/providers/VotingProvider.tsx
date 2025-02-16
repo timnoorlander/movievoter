@@ -1,29 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { VotingStages } from "../constants/voting-stages";
 import { getConfigValue } from "../utils/config";
+import { VotingContext, TVotingContext } from "./VotingContext.ts";
 
 type VotingProviderProps = {
   children: React.ReactNode;
 };
-
-type VotingProviderValue = {
-  joinVoting: (votingName: string) => void;
-  createVoting: (votingName: string) => void;
-  startVoting: () => void;
-  persistMovies: (movieIds: Array<string>) => void;
-  undoPersistingMovies: (movieIds: Array<string>) => void;
-  castVote: (movieIds: Array<string>) => void;
-  withdrawVote: () => void;
-  votingName: string | undefined;
-  votingStage: VotingStages | undefined;
-  numberOfParticipants: number | undefined;
-  numberOfMoviesPerUser: number | undefined;
-  isHost: boolean | undefined;
-  movieIds: Array<string>;
-};
-
-const VotingContext = createContext<VotingProviderValue | undefined>(undefined);
 
 const socket = io(getConfigValue("VITE_WEBSOCKET_URL"));
 
@@ -134,7 +117,7 @@ export function VotingProvider({ children }: VotingProviderProps) {
     socket.emit("withdraw-vote");
   }
 
-  const value: VotingProviderValue = {
+  const value: TVotingContext = {
     joinVoting,
     createVoting,
     startVoting,
@@ -154,11 +137,3 @@ export function VotingProvider({ children }: VotingProviderProps) {
     <VotingContext.Provider value={value}>{children}</VotingContext.Provider>
   );
 }
-
-export const useVotingContext = () => {
-  const context = useContext(VotingContext);
-  if (!context) {
-    throw new Error("useVotingContext must be used within an VotingProvider");
-  }
-  return context;
-};
