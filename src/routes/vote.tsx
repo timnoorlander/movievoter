@@ -81,7 +81,10 @@ export function Vote() {
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="movies">
             {(provided) => (
-              <ul {...provided.droppableProps} ref={provided.innerRef}>
+              <CardContainer
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
                 {results.map((result, i) => {
                   const movie = result.data;
                   if (!movie) {
@@ -101,7 +104,7 @@ export function Vote() {
                           {...provided.dragHandleProps}
                           className="movies"
                         >
-                          <Card>
+                          <Card isDraggable>
                             <CardImage>
                               <Poster src={movie.Poster} />
                             </CardImage>
@@ -115,7 +118,7 @@ export function Vote() {
                   );
                 })}
                 {provided.placeholder}
-              </ul>
+              </CardContainer>
             )}
           </Droppable>
         </DragDropContext>
@@ -193,4 +196,9 @@ const RankIndicator = styled.div`
   justify-content: center;
 
   ${theme.boxShadow};
+`;
+
+const CardContainer = styled.ul`
+  flex: 1;
+  padding-right: 0.5rem;
 `;

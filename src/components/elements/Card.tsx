@@ -1,11 +1,35 @@
 import styled, { css } from "styled-components";
+import { MdDragIndicator } from "react-icons/md";
 import { theme } from "../../styles/theme";
 import { slideUpAnimation } from "../layout/animations/SlideUp";
 
-export const Card = styled.div<{ hasAnimation?: boolean }>`
+type Props = {
+  children: React.ReactNode;
+  hasAnimation?: boolean;
+  isDraggable?: boolean;
+};
+
+export function Card({
+  children,
+  hasAnimation = false,
+  isDraggable = false,
+}: Props) {
+  return (
+    <CardItem hasAnimation={hasAnimation}>
+      {isDraggable ? (
+        <DragIconContainer>
+          <DragIcon />
+        </DragIconContainer>
+      ) : null}
+      {children}
+    </CardItem>
+  );
+}
+
+export const CardItem = styled.div<{ hasAnimation?: boolean }>`
   display: flex;
   width: 100%;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 0.5rem;
   background-color: ${theme.colors.primary};
 
@@ -35,6 +59,7 @@ export const CardContent = styled.div`
   align-items: flex-start;
   color: ${theme.colors.textContrast};
   text-align: left;
+  padding-left: 0.5rem;
 `;
 
 export const CardTitle = styled.div`
@@ -46,4 +71,15 @@ export const CardTopRightButton = styled.button`
   background: none;
   padding: none;
   border: none;
+`;
+
+const DragIcon = styled(MdDragIndicator)`
+  color: ${theme.colors.textContrast};
+  width: 1.5rem;
+  height: 1.5rem;
+`;
+
+const DragIconContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;

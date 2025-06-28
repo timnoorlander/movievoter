@@ -25,7 +25,7 @@ export function ReadyToggle({ onToggleOn, onToggleOff }: Props) {
 
 const BottomBarContainer = styled.div`
   position: sticky;
-  bottom: 0;
+  bottom: 1.5rem;
   left: 0;
   width: 100%;
   animation: ${slideUpAnimation} 300ms;
