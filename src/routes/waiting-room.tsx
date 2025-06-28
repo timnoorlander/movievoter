@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "../constants/paths";
 import { Spinner } from "../components/elements/Spinner";
 import { slideRightAnimation } from "../components/layout/animations/SlideRight";
-import {useVotingContext} from "../providers/VotingContext.ts";
+import { useVotingContext } from "../providers/VotingContext.ts";
 
 export function WaitingRoom() {
   const navigate = useNavigate();
@@ -27,9 +27,15 @@ export function WaitingRoom() {
     <Container>
       <span>Voting name: {votingName}</span>
       <ParticipantInfo>
-        <span>There are currently</span>
-        <NumberOfParticipants>{numberOfParticipants}</NumberOfParticipants>
-        <span>participants</span>
+        {numberOfParticipants === 1 ? (
+          <span>Waiting for participants...</span>
+        ) : (
+          <>
+            <span>There are currently</span>
+            <NumberOfParticipants>{numberOfParticipants}</NumberOfParticipants>
+            <span>participants</span>
+          </>
+        )}
       </ParticipantInfo>
 
       {isHost && (

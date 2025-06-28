@@ -135,6 +135,7 @@ export function VotingProvider({ children }: VotingProviderProps) {
     numberOfMoviesPerUser,
     isHost,
     movieIds,
+    votes,
   };
 
   return (
